@@ -51,7 +51,6 @@ export default Task.extend({
         return Promise.reject(new SilentError(message));
       }
     }
-
     const webpackDevServerConfiguration: IWebpackDevServerConfigurationOptions = {
       contentBase: path.resolve(
         this.project.root,
@@ -63,13 +62,14 @@ export default Task.extend({
       proxy: proxyConfig,
       watchOptions: {
         poll: CliConfig.fromProject().config.defaults.poll
-      }
+      },
+      https: commandOptions.ssl
     };
 
     ui.writeLine(chalk.green(oneLine`
       **
       NG Live Development Server is running on
-      http://${commandOptions.host}:${commandOptions.port}.
+      http${commandOptions.ssl === true ? 's': ''}://${commandOptions.host}:${commandOptions.port}.
       **
     `));
 
